@@ -9,5 +9,6 @@ Route::controller(PageController::class)->group(function () {
     Route::get('/professeur', [PageController::class, 'professeur_liste'])->name('professeur');
     Route::get('/chapitre', [PageController::class, 'chapitre'])->name('chapitre');
     Route::get('/{cours}', [PageController::class, 'detailCours'])->name('cours.detail');
+    Route::get('/chapitre/{chapitre}', [PageController::class, 'detailChapitre'])->name('chapitre.detail');
 });
 

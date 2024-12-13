@@ -11,7 +11,7 @@
 @if($cours->chapitres->isNotEmpty())
     <ul class="text-center">
         @foreach($cours->chapitres as $chapitre)
-            <li style="list-style-type: none;">{{ $chapitre->titre }}</li>
+            <li style="list-style-type: none;"><a href="{{ route('chapitre.detail', $chapitre->id) }}">{{ $chapitre->titre }}</a></li>
         @endforeach
     </ul>
 @else

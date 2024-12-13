@@ -11,7 +11,7 @@
             @foreach ($cours as $cour)
                 <div class="col-md-4">
                     <div class="card mb-4">
-                        <div class="card-body">
+                        <div class="card-body d-flex justify-content-center align-items-center flex-column">
                             <h5 class="card-title">{{ $cour->titre }}</h5>
                             <p class="card-text">{{ Str::limit($cour->description, 100) }}</p>
                             <p><strong>Enseignant :</strong> {{ $cour->professeur->nom }} {{ $cour->professeur->prenom }}</p>

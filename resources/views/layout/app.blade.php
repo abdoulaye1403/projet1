@@ -13,11 +13,10 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
+        <div class="container d-flex justify-content-end m-3">
             <a class="navbar-brand" href="{{ route('cours') }}">Cours</a>
-            <a  href="{{ route('chapitre') }}">Chapitre</a>
-            <a  href="{{ route('etudiant') }}">Etudiants</a>
-            <a  href="{{ route('professeur') }}">Professeurs</a>
+            <a  class="m-1" href="{{ route('etudiant') }}">Etudiants</a>
+            <a  class="m-1" href="{{ route('professeur') }}">Professeurs</a>
         </div>
     </nav>
 
