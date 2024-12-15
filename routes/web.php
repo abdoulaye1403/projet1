@@ -1,14 +1,17 @@
 <?php
 
+use App\Http\Controllers\CoursesController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PageController;
 
-Route::controller(PageController::class)->group(function () {
-    Route::get('/', [PageController::class, 'cours'])->name('cours');
-    Route::get('/etudiant', [PageController::class, 'etudiant_liste'])->name('etudiant');
-    Route::get('/professeur', [PageController::class, 'professeur_liste'])->name('professeur');
-    Route::get('/chapitre', [PageController::class, 'chapitre'])->name('chapitre');
-    Route::get('/{cours}', [PageController::class, 'detailCours'])->name('cours.detail');
-    Route::get('/chapitre/{chapitre}', [PageController::class, 'detailChapitre'])->name('chapitre.detail');
+Route::get("/", [CoursesController::class,"index"])->name("index");
+Route::group(['prefix' => 'courses', 'as' => 'courses.'], function() {
+    Route::controller(CoursesController::class)->group(function() {
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::put('{course}/show', 'show')->name('show');
+        Route::get('{course}/edit', 'edit')->name('edit');
+        Route::put('{course}', 'update')->name('update');
+        Route::delete('{course}/delete', 'destroy')->name('destroy');
+    });
 });
 

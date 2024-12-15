@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Professeur extends Model
+class Teacher extends Model
 {
-    public function cours(): HasMany
+    public function courses(): HasMany
     {
-        return $this->hasMany(Cours::class, 'professeur_id');
+        return $this->hasMany(Course::class);
     }
 }
