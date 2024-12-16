@@ -1,5 +1,5 @@
 <div class="container">
     <footer>
-        <p>&copy; 2023 Mon Site. Tous droits réservés.</p>
+        <p>&copy; 2024 Mon Site. Tous droits réservés.</p>
     </footer>
 </div>

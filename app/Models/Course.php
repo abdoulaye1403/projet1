@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Course extends Model
 {
-    protected $fillable = ['titre', 'description', 'professeur_id'];
+    protected $fillable = ['title', 'description', 'professeur_id'];
     public function teacher(): BelongsTo
     {
         return $this->belongsTo(Teacher::class);

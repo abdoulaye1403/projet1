@@ -54,15 +54,17 @@ class CoursesController extends Controller
      */
     public function show(Course $course)
     {
-        //
+        $teachers = Teacher::all();
+        return view('pages.courses.show', compact('course', 'teachers'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Course $course)
+    public function edit(Request $request,Course $course)
     {
-        //
+        $teachers = Teacher::all();
+        return view('pages.courses.edit', compact('course', 'teachers'));
     }
 
     /**
@@ -70,7 +72,15 @@ class CoursesController extends Controller
      */
     public function update(Request $request, Course $course)
     {
-        //
+        Validator::make($request->all(), [
+            'title' => ['required', 'string', 'max:50'],
+            'description' => ['string'],
+            'teacher_id' => ['required', 'numeric']
+        ])->validate();
+
+        $course->update($request->except('_token', '_method'));
+
+        return redirect()->route('index')->with('success', 'Cours modifié avec success');
     }
 
     /**

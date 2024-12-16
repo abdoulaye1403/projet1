@@ -3,7 +3,7 @@
 @section('contenu')
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
-            <h1>Liste des Courss</h1>
+            <h1 class="mb-3 mt-3">Liste des Cours</h1>
             <a href="{{ route('courses.create') }}" class="btn btn-primary">Ajouter un Cours</a>
         </div>
 
@@ -13,32 +13,36 @@
             </div>
         @endsession
 
-        <table class="table">
+        <table class="table mb-3 mt-3">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">Titre</th>
-                <th scope="col">Description</th>
-                <th scope="col">Professeur</th>
-                <th scope="col">Actions</th>
+                <th scope="col" class="text-center">#</th>
+                <th scope="col" class="text-center">Titre</th>
+                <th scope="col" class="text-center">Description</th>
+                <th scope="col" class="text-center">Professeur</th>
+                <th scope="col" class="text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
               @foreach ($courses as $course)
                 <tr>
-                    <th scope="row">{{ $course->id }}</th>
-                    <td>{{ $course->title }}</td>
-                    <td>{{ $course->description }}</td>
-                    <td>{{ $course->teacher?->first_name }} {{ $course->teacher?->last_name }}</td>
-                    <td>
-                        <a href="" class="btn btn-primary">Voir</a>
+                    <th scope="row" class="text-center">{{ $course->id }}</th>
+                    <td class="text-center">{{ $course->title }}</td>
+                    <td class="text-center">{{ $course->description }}</td>
+                    <td class="text-center">{{ $course->teacher?->first_name }} {{ $course->teacher?->last_name }}</td>
+                    <td class="text-center">
+                        <a href="{{ route('courses.show', ['course' => $course]) }}" class="btn btn-primary">Voir</a>
                         <a href="{{ route('courses.edit', ['course' => $course]) }}" class="btn btn-warning">Modifier</a>
-                        <form id="deleteForm-{{ $course->id }}" action="{{ route('courses.destroy', ['course' => $course]) }}" method="POST">
+                        <form id="deleteForm-{{ $course->id }}" action="{{ route('courses.destroy', ['course' => $course]) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
-                            <a href="#" onclick="document.getElementById('deleteForm-{{ $course->id }}').submit()" class="btn btn-danger">Supprimer</a>
+                            <button type="submit" class="btn btn-danger"
+                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce cours ?')">
+                                Supprimer
+                            </button>
                         </form>
                     </td>
+
                 </tr>
               @endforeach
             </tbody>

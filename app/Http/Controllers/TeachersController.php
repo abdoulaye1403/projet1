@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Teacher;
+use App\Models\Teacher,App\Models\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TeachersController extends Controller
 {
@@ -12,7 +13,8 @@ class TeachersController extends Controller
      */
     public function index()
     {
-        //
+        $teachers = Teacher::all();
+        return view("pages.teachers.index", compact("teachers"));
     }
 
     /**
@@ -20,7 +22,7 @@ class TeachersController extends Controller
      */
     public function create()
     {
-        //
+        return view("pages.teachers.create");
     }
 
     /**
@@ -28,7 +30,28 @@ class TeachersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Validator::make($request->all(), [
+            'first_name' => ['required', 'string', 'max:50'],
+            'last_name' => ['required', 'string', 'max:50'],
+             'birth_date' => ['required', 'date'],
+             'address' => ['required', 'string', 'max:50'],
+             'phone_number' => ['required', 'numeric','max:8'],
+             'grade' => ['required'],
+             'email' => ['required', 'email','unique:teachers']
+        ])->validate();
+
+         // enregistrer
+          $teacher = new Teacher();
+          $teacher->first_name = $request->first_name;
+          $teacher->last_name = $request->last_name;
+          $teacher->birth_date = $request->birth_date;
+          $teacher->address = $request->address;
+          $teacher->phone_number = $request->phone_number;
+          $teacher->grade = $request->grade;
+          $teacher->email = $request->email;
+          $teacher->save();
+
+         return redirect()->route('teachers.index')->with('success', 'professeur ajouté avec success');
     }
 
     /**
@@ -36,7 +59,7 @@ class TeachersController extends Controller
      */
     public function show(Teacher $teacher)
     {
-        //
+        return view('pages.teachers.show', compact('teacher'));
     }
 
     /**
@@ -44,7 +67,7 @@ class TeachersController extends Controller
      */
     public function edit(Teacher $teacher)
     {
-        //
+        return view('pages.teachers.edit', compact('teacher'));
     }
 
     /**
@@ -52,7 +75,18 @@ class TeachersController extends Controller
      */
     public function update(Request $request, Teacher $teacher)
     {
-        //
+        Validator::make($request->all(), [
+            'first_name' => ['required', 'string', 'max:50'],
+            'last_name' => ['required', 'string', 'max:50'],
+             'birth_date' => ['required', 'date'],
+             'address' => ['required', 'string', 'max:50'],
+             'phone_number' => ['required', 'numeric','min:8'],
+             'grade' => ['required'],
+             'email' => ['required','unique:teachers,email,'.$teacher->id]
+        ])->validate();
+        $teacher->update($request->except('_token', '_method'));
+
+        return redirect()->route('teachers.index')->with('success', 'professeur modifié avec success');
     }
 
     /**
@@ -60,6 +94,10 @@ class TeachersController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
-        //
+        if($teacher && $teacher->id != null) {
+            $teacher->delete();
+        }
+
+        return redirect()->route('teachers.index')->with('success', 'professeur supprimée avec success');
     }
 }
