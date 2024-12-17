@@ -33,6 +33,7 @@
                     <td class="text-center">
                         <a href="{{ route('courses.show', ['course' => $course]) }}" class="btn btn-primary">Voir</a>
                         <a href="{{ route('courses.edit', ['course' => $course]) }}" class="btn btn-warning">Modifier</a>
+                        <a href="{{ route('chapters.create',['course_id' => $course->id, 'course_title' => $course->title]) }}" class="btn btn-secondary">Ajouter chapitres</a>
                         <form id="deleteForm-{{ $course->id }}" action="{{ route('courses.destroy', ['course' => $course]) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')

@@ -24,7 +24,7 @@
                 <li class="list-group-item">
                     <strong>{{ $chapitre->title }}</strong>
                     <p>{{ Str::limit($chapitre->content, 150) }}</p>
-                    <a href="" class="btn btn-primary btn-sm">Voir le Chapitre</a>
+                    <a href="{{ route('chapters.show',['chapter' => $chapitre]) }}" class="btn btn-primary btn-sm">Voir le Chapitre</a>
                 </li>
             @endforeach
         </ul>

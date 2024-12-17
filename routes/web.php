@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChaptersController;
 use App\Http\Controllers\CoursesController;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\TeachersController;
@@ -19,5 +20,5 @@ Route::group(['prefix' => 'courses', 'as' => 'courses.'], function() {
 
 Route::resource('teachers', TeachersController::class);
 Route::resource('students', StudentsController::class);
-
+Route::resource('chapters', ChaptersController::class);
 

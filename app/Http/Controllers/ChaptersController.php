@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\Chapter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ChaptersController extends Controller
 {
@@ -12,15 +14,16 @@ class ChaptersController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $course_id = $request->query('course_id');
+        return view('pages.chapters.create', compact('course_id'));
     }
 
     /**
@@ -28,7 +31,19 @@ class ChaptersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'course_id' => 'required|exists:courses,id',
+        ]);
+
+        Chapter::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'course_id' => $request->course_id,
+        ]);
+
+         return redirect()->route('index')->with('success', 'Chapitre ajouté avec success');
     }
 
     /**
@@ -36,7 +51,7 @@ class ChaptersController extends Controller
      */
     public function show(Chapter $chapter)
     {
-        //
+        return view('pages.chapters.show', compact('chapter'));
     }
 
     /**
