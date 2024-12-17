@@ -8,7 +8,7 @@
                 <a href="{{ route('teachers.index') }}" class="text-decoration-none" title="Voir les professeurs">Professeurs</a>
             </li>
             <li class="mx-3">
-                <a href="" class="text-decoration-none" title="Voir les étudiants">Etudiants</a>
+                <a href="{{ route('students.index') }}" class="text-decoration-none" title="Voir les étudiants">Etudiants</a>
             </li>
         </ul>
     </nav>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class StudentsController extends Controller
 {
@@ -12,7 +13,8 @@ class StudentsController extends Controller
      */
     public function index()
     {
-        //
+        $students = Student::all();
+        return view("pages.students.index", compact('students'));
     }
 
     /**
@@ -20,7 +22,7 @@ class StudentsController extends Controller
      */
     public function create()
     {
-        //
+        return view("pages.students.create");
     }
 
     /**
@@ -28,7 +30,18 @@ class StudentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Validator::make($request->all(), [
+            'first_name' => ['required', 'string', 'max:50'],
+            'last_name' => ['required', 'string', 'max:50'],
+             'birth_date' => ['required', 'date'],
+             'address' => ['required', 'string', 'max:50'],
+             'phone_number' => ['required', 'numeric'],
+             'email' => ['required', 'email','unique:students']
+        ])->validate();
+
+        Student::create($request->except('_token'));
+
+         return redirect()->route('students.index')->with('success', 'Etudiant ajouté avec success');
     }
 
     /**
@@ -36,7 +49,7 @@ class StudentsController extends Controller
      */
     public function show(Student $student)
     {
-        //
+        return view('pages.students.show', compact('student'));
     }
 
     /**
@@ -44,7 +57,7 @@ class StudentsController extends Controller
      */
     public function edit(Student $student)
     {
-        //
+        return view('pages.students.edit', compact('student'));
     }
 
     /**
@@ -52,7 +65,17 @@ class StudentsController extends Controller
      */
     public function update(Request $request, Student $student)
     {
-        //
+        Validator::make($request->all(), [
+            'first_name' => ['required', 'string', 'max:50'],
+            'last_name' => ['required', 'string', 'max:50'],
+             'birth_date' => ['required', 'date'],
+             'address' => ['required', 'string', 'max:50'],
+             'phone_number' => ['required', 'numeric'],
+             'email' => ['required','unique:teachers,email,'.$student->id]
+        ])->validate();
+        $student->update($request->except('_token', '_method'));
+
+        return redirect()->route('students.index')->with('success', 'etudiant modifié avec success');
     }
 
     /**
@@ -60,6 +83,10 @@ class StudentsController extends Controller
      */
     public function destroy(Student $student)
     {
-        //
+        if($student && $student->id != null) {
+            $student->delete();
+        }
+
+        return redirect()->route('students.index')->with('success', 'etudiant supprimée avec success');
     }
 }

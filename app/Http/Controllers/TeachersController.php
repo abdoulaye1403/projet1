@@ -14,7 +14,7 @@ class TeachersController extends Controller
     public function index()
     {
         $teachers = Teacher::all();
-        return view("pages.teachers.index", compact("teachers"));
+        return view("pages.teachers.index", compact('teachers'));
     }
 
     /**
@@ -35,7 +35,7 @@ class TeachersController extends Controller
             'last_name' => ['required', 'string', 'max:50'],
              'birth_date' => ['required', 'date'],
              'address' => ['required', 'string', 'max:50'],
-             'phone_number' => ['required', 'numeric','max:8'],
+             'phone_number' => ['required', 'numeric'],
              'grade' => ['required'],
              'email' => ['required', 'email','unique:teachers']
         ])->validate();
@@ -80,7 +80,7 @@ class TeachersController extends Controller
             'last_name' => ['required', 'string', 'max:50'],
              'birth_date' => ['required', 'date'],
              'address' => ['required', 'string', 'max:50'],
-             'phone_number' => ['required', 'numeric','min:8'],
+             'phone_number' => ['required', 'numeric'],
              'grade' => ['required'],
              'email' => ['required','unique:teachers,email,'.$teacher->id]
         ])->validate();
