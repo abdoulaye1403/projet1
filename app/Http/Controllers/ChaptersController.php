@@ -59,7 +59,7 @@ class ChaptersController extends Controller
      */
     public function edit(Chapter $chapter)
     {
-        //
+        return view('pages.chapters.edit', compact('chapter'));
     }
 
     /**
@@ -67,7 +67,17 @@ class ChaptersController extends Controller
      */
     public function update(Request $request, Chapter $chapter)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
+
+        $chapter->update([
+            'title' => $request->title,
+            'content' => $request->content,
+        ]);
+
+         return redirect()->route('courses.show', $chapter->course_id )->with('success', 'Chapitre modifie avec success');
     }
 
     /**

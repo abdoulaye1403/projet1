@@ -25,6 +25,7 @@
                     <strong>{{ $chapitre->title }}</strong>
                     <p>{{ Str::limit($chapitre->content, 150) }}</p>
                     <a href="{{ route('chapters.show',['chapter' => $chapitre]) }}" class="btn btn-primary btn-sm">Voir le Chapitre</a>
+                    <a href="{{ route('chapters.edit',['chapter' => $chapitre]) }}" class="btn btn-primary btn-sm">Modifier</a>
                 </li>
             @endforeach
         </ul>

@@ -2,7 +2,7 @@
 
 @section('contenu')
     <div class="container">
-        <h1>Ajouter un Chapitre</h1>
+        <h1>Modifier un Chapitre</h1>
 
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -14,21 +14,22 @@
             </div>
         @endif
 
-        <form action="{{ route('chapters.store') }}" method="POST">
+        <form action="{{ route('chapters.update',['chapter' => $chapter]) }}" method="POST">
             @csrf
+            @method('PUT')
             <div class="mb-3">
                 <label for="title" class="form-label">Titre</label>
-                <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" placeholder="Entrez le nom du chapitre">
+                <input type="text" class="form-control" id="title" name="title" value="{{ $chapter->title }}" placeholder="Entrez le nom du chapitre">
                 <span class="text-small text-danger">@error('title') {{ $message }} @enderror</span>
             </div>
 
             <div class="mb-3">
                 <label for="content" class="form-label">Description</label>
-                <textarea id="content" name="content" class="form-control" rows="5">{{ old('content') }}</textarea>
+                <textarea id="content" name="content" class="form-control" rows="5">{{  $chapter->content }}</textarea>
             </div>
-            <input type="hidden" name="course_id" value="{{ request('course_id') }}">
+            <input type="hidden" name="course_id" value="{{ $chapter->course_id }}">
             <div class="mb-5">
-                <button class="btn btn-primary" type="submit">Enregistrer</button>
+                <button class="btn btn-primary" type="submit">Modifier</button>
             </div>
         </form>
     </div>
