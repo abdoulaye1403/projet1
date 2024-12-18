@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Models\StudentCourse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -47,8 +48,9 @@ class StudentsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Student $student)
+    public function show($student_id)
     {
+        $student = Student::with('courses')->findOrFail($student_id);
         return view('pages.students.show', compact('student'));
     }
 

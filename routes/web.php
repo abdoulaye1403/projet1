@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\ChaptersController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CoursesController;
+use App\Http\Controllers\ChaptersController;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\TeachersController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StudentCoursesController;
 
 Route::get("/", [CoursesController::class,"index"])->name("index");
 Route::group(['prefix' => 'courses', 'as' => 'courses.'], function() {
@@ -21,4 +22,5 @@ Route::group(['prefix' => 'courses', 'as' => 'courses.'], function() {
 Route::resource('teachers', TeachersController::class);
 Route::resource('students', StudentsController::class);
 Route::resource('chapters', ChaptersController::class);
+Route::resource('studentscourses', StudentCoursesController::class);
 

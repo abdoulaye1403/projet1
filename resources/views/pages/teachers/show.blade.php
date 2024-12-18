@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <!-- Liste des Chapitres -->
+    <!-- Liste des cours -->
     <h3>Ses Cours</h3>
     @if($teacher->courses->isNotEmpty())
         <ul class="list-group mb-4">

@@ -2,8 +2,6 @@
 
 @section('contenu')
 <div class="container d-flex flex-column justify-content-center align-items-center">
-    <h1>Détails du Cours</h1>
-
     <!-- Détails du Cours -->
     <div class="card mb-4">
         <div class="card-header">
@@ -15,24 +13,45 @@
             <p><strong>Date de Création :</strong> {{ $course->created_at->format('d/m/Y') }}</p>
         </div>
     </div>
-
     <!-- Liste des Chapitres -->
     <h3>Chapitres</h3>
-    @if($course->chapters->isNotEmpty())
-        <ul class="list-group mb-4">
-            @foreach($course->chapters as $chapitre)
-                <li class="list-group-item">
-                    <strong>{{ $chapitre->title }}</strong>
-                    <p>{{ Str::limit($chapitre->content, 150) }}</p>
-                    <a href="{{ route('chapters.show',['chapter' => $chapitre]) }}" class="btn btn-primary btn-sm">Voir le Chapitre</a>
-                    <a href="{{ route('chapters.edit',['chapter' => $chapitre]) }}" class="btn btn-primary btn-sm">Modifier</a>
-                </li>
-            @endforeach
-        </ul>
+    @if ($course->chapters->isEmpty())
+        <p>Aucun chapitre trouvé.</p>
     @else
-        <p>Aucun chapitre disponible pour ce cours.</p>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">Nom du chapitre</th>
+                    <th class="text-center">Contenu</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($course->chapters as $chapitre)
+                    <tr>
+                        <td class="text-center">{{ $chapitre->id }}</td>
+                        <td class="text-center">{{$chapitre->title}}</td>
+                        <td class="text-center">{{ Str::limit($chapitre->content, 150) }}</td>
+                        <td class="text-center">
+                            <a href="{{ route('chapters.show',['chapter' => $chapitre]) }}" class="btn btn-primary btn-sm m-1">Voir</a>
+                            <a href="{{ route('chapters.edit',['chapter' => $chapitre]) }}" class="btn btn-warning btn-sm m-1">Modifier</a>
+                            <form id="deleteForm-{{ $chapitre->id }}" action="{{ route('chapters.destroy', ['chapter' => $chapitre]) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger m-1 btn-sm"
+                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce chapitre?')">
+                                    Supprimer
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     @endif
+
      <!-- Boutons d'Action -->
-    <a href="{{ route('index') }}" class="btn btn-secondary">Retour à la Liste des Cours</a>
+    <a href="{{ route('index') }}" class="btn btn-secondary">Retour à la Liste</a>
 </div>
 @endsection

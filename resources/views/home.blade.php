@@ -31,13 +31,13 @@
                     <td class="text-center">{{ $course->description }}</td>
                     <td class="text-center">{{ $course->teacher?->first_name }} {{ $course->teacher?->last_name }}</td>
                     <td class="text-center">
-                        <a href="{{ route('courses.show', ['course' => $course]) }}" class="btn btn-primary">Voir</a>
-                        <a href="{{ route('courses.edit', ['course' => $course]) }}" class="btn btn-warning">Modifier</a>
-                        <a href="{{ route('chapters.create',['course_id' => $course->id, 'course_title' => $course->title]) }}" class="btn btn-secondary">Ajouter chapitres</a>
+                        <a href="{{ route('courses.show', ['course' => $course]) }}" class="btn btn-primary btn-sm rounded">Voir</a>
+                        <a href="{{ route('courses.edit', ['course' => $course]) }}" class="btn btn-warning btn-sm rounded">Modifier</a>
+                        <a href="{{ route('chapters.create',['course_id' => $course->id, 'course_title' => $course->title]) }}" class="btn btn-secondary btn-sm rounded">Ajouter chapitres</a>
                         <form id="deleteForm-{{ $course->id }}" action="{{ route('courses.destroy', ['course' => $course]) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger"
+                            <button type="submit" class="btn btn-danger btn-sm rounded"
                                 onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce cours ?')">
                                 Supprimer
                             </button>

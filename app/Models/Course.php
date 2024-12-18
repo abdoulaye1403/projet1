@@ -20,8 +20,8 @@ class Course extends Model
         return $this->hasMany(Chapter::class);
     }
 
-    public function studentCourses(): BelongsToMany
+    public function students(): BelongsToMany
     {
-        return $this->belongsToMany(Student::class,StudentCourse::class);
+        return $this->belongsToMany(Student::class, 'student_courses')->withTimestamps();
     }
 }

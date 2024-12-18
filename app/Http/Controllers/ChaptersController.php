@@ -85,6 +85,10 @@ class ChaptersController extends Controller
      */
     public function destroy(Chapter $chapter)
     {
-        //
+        if($chapter && $chapter->id != null) {
+            $chapter->delete();
+        }
+
+        return redirect()->route('courses.show', $chapter->course_id)->with('success', 'chapitre supprimé avec success');
     }
 }
