@@ -6,15 +6,22 @@ use App\Models\Student;
 use App\Models\StudentCourse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class StudentsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+     public function __construct()
+     {
+        $this->middleware('auth');
+     }
     public function index()
     {
-        $students = Student::all();
+        $students = Student::with('user')->get(); // Récupère tous les etudiants avec leurs utilisateurs;
         return view("pages.students.index", compact('students'));
     }
 
@@ -31,26 +38,42 @@ class StudentsController extends Controller
      */
     public function store(Request $request)
     {
-        Validator::make($request->all(), [
-            'first_name' => ['required', 'string', 'max:50'],
-            'last_name' => ['required', 'string', 'max:50'],
-             'birth_date' => ['required', 'date'],
-             'address' => ['required', 'string', 'max:50'],
-             'phone_number' => ['required', 'numeric'],
-             'email' => ['required', 'email','unique:students']
-        ])->validate();
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
+            'gender' => 'required|in:male,female,other',
+            'dateofbirth' => 'required|date',
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
+        ]);
 
-        Student::create($request->except('_token'));
+        // Créer l'utilisateur
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'student', // Attribuer directement le rôle de l'etudiant
+        ]);
 
-         return redirect()->route('students.index')->with('success', 'Etudiant ajouté avec success');
+        // Créer l'etudiant lié à l'utilisateur
+        Student::create([
+            'user_id' => $user->id,
+            'gender' => $request->gender,
+            'dateofbirth' => $request->dateofbirth,
+            'address' => $request->address,
+            'phone' => $request->phone,
+        ]);
+
+        return redirect()->route('students.index')->with('success', 'Etudiant créé avec succès.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($student_id)
+    public function show($id)
     {
-        $student = Student::with('courses')->findOrFail($student_id);
+        $student = Student::with('user')->findOrFail($id);
         return view('pages.students.show', compact('student'));
     }
 
@@ -65,19 +88,34 @@ class StudentsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Student $student)
+    public function update(Request $request,$id)
     {
-        Validator::make($request->all(), [
-            'first_name' => ['required', 'string', 'max:50'],
-            'last_name' => ['required', 'string', 'max:50'],
-             'birth_date' => ['required', 'date'],
-             'address' => ['required', 'string', 'max:50'],
-             'phone_number' => ['required', 'numeric'],
-             'email' => ['required','unique:teachers,email,'.$student->id]
-        ])->validate();
-        $student->update($request->except('_token', '_method'));
-
-        return redirect()->route('students.index')->with('success', 'etudiant modifié avec success');
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $id,
+            'gender' => 'required|in:male,female,other',
+            'dateofbirth' => 'required|date',
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
+        ]);
+    
+        $student = Student::findOrFail($id);
+    
+        // Mise à jour de l'utilisateur lié
+        $student->user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+    
+        // Mise à jour des informations de etudiant
+        $student->update([
+            'gender' => $request->gender,
+            'dateofbirth' => $request->dateofbirth,
+            'address' => $request->address,
+            'phone' => $request->phone,
+        ]);
+    
+        return redirect()->route('students.index')->with('success', 'Etudiant mis à jour avec succès.');
     }
 
     /**
@@ -86,6 +124,7 @@ class StudentsController extends Controller
     public function destroy(Student $student)
     {
         if($student && $student->id != null) {
+            $student->user->delete();
             $student->delete();
         }
 

@@ -4,16 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Teacher,App\Models\Course;
 use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class TeachersController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+     public function __construct()
+     {
+        $this->middleware('auth');
+     }
     public function index()
     {
-        $teachers = Teacher::all();
+        $teachers = Teacher::with('user')->get(); // Récupère tous les professeurs avec leurs utilisateurs;
         return view("pages.teachers.index", compact('teachers'));
     }
 
@@ -30,35 +37,44 @@ class TeachersController extends Controller
      */
     public function store(Request $request)
     {
-        Validator::make($request->all(), [
-            'first_name' => ['required', 'string', 'max:50'],
-            'last_name' => ['required', 'string', 'max:50'],
-             'birth_date' => ['required', 'date'],
-             'address' => ['required', 'string', 'max:50'],
-             'phone_number' => ['required', 'numeric'],
-             'grade' => ['required'],
-             'email' => ['required', 'email','unique:teachers']
-        ])->validate();
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
+            'gender' => 'required|in:male,female,other',
+            'grade' => 'required|in:Master,Doctorat',
+            'dateofbirth' => 'required|date',
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
+        ]);
 
-         // enregistrer
-          $teacher = new Teacher();
-          $teacher->first_name = $request->first_name;
-          $teacher->last_name = $request->last_name;
-          $teacher->birth_date = $request->birth_date;
-          $teacher->address = $request->address;
-          $teacher->phone_number = $request->phone_number;
-          $teacher->grade = $request->grade;
-          $teacher->email = $request->email;
-          $teacher->save();
+        // Créer l'utilisateur
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'teacher', // Attribuer directement le rôle de professeur
+        ]);
 
-         return redirect()->route('teachers.index')->with('success', 'professeur ajouté avec success');
+        // Créer le professeur lié à l'utilisateur
+        Teacher::create([
+            'user_id' => $user->id,
+            'gender' => $request->gender,
+            'grade' => $request->grade,
+            'dateofbirth' => $request->dateofbirth,
+            'address' => $request->address,
+            'phone' => $request->phone,
+        ]);
+
+        return redirect()->route('teachers.index')->with('success', 'Professeur créé avec succès.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Teacher $teacher)
+    public function show($id)
     {
+        $teacher = Teacher::with('user')->findOrFail($id);
         return view('pages.teachers.show', compact('teacher'));
     }
 
@@ -73,20 +89,36 @@ class TeachersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Teacher $teacher)
+    public function update(Request $request, $id)
     {
-        Validator::make($request->all(), [
-            'first_name' => ['required', 'string', 'max:50'],
-            'last_name' => ['required', 'string', 'max:50'],
-             'birth_date' => ['required', 'date'],
-             'address' => ['required', 'string', 'max:50'],
-             'phone_number' => ['required', 'numeric'],
-             'grade' => ['required'],
-             'email' => ['required','unique:teachers,email,'.$teacher->id]
-        ])->validate();
-        $teacher->update($request->except('_token', '_method'));
-
-        return redirect()->route('teachers.index')->with('success', 'professeur modifié avec success');
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $id,
+            'gender' => 'required|in:male,female,other',
+            'grade' => 'required|in:Master,Doctorat',
+            'dateofbirth' => 'required|date',
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
+        ]);
+    
+        $teacher = Teacher::findOrFail($id);
+    
+        // Mise à jour de l'utilisateur lié
+        $teacher->user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+        ]);
+    
+        // Mise à jour des informations du professeur
+        $teacher->update([
+            'gender' => $request->gender,
+            'grade' => $request->grade,
+            'dateofbirth' => $request->dateofbirth,
+            'address' => $request->address,
+            'phone' => $request->phone,
+        ]);
+    
+        return redirect()->route('teachers.index')->with('success', 'Professeur mis à jour avec succès.');
     }
 
     /**
@@ -95,6 +127,7 @@ class TeachersController extends Controller
     public function destroy(Teacher $teacher)
     {
         if($teacher && $teacher->id != null) {
+            $teacher->user->delete();
             $teacher->delete();
         }
 

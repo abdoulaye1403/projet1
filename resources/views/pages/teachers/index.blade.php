@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('contenu')
+@section('title', 'Professeurs')
+@section('content')
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="mb-3 mt-3">Liste des professeurs</h1>
@@ -13,44 +14,36 @@
             </div>
         @endsession
 
-        <table class="table mb-3 mt-3">
+        <table class="table">
             <thead>
-              <tr>
-                <th scope="col" class="text-center">#</th>
-                <th scope="col" class="text-center">Nom</th>
-                <th scope="col" class="text-center">Prenom</th>
-                <th scope="col" class="text-center">Adresse</th>
-                <th scope="col" class="text-center">Email</th>
-                <th scope="col" class="text-center">Telephone</th>
-                <th scope="col" class="text-center">Grade</th>
-                <th scope="col" class="text-center">Actions</th>
-              </tr>
+                <tr>
+                    <th>#</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Grade</th>
+                    <th>Genre</th>
+                    <th>Actions</th>
+                </tr>
             </thead>
             <tbody>
-              @foreach ($teachers as $teacher)
-                <tr>
-                    <th scope="row" class="text-center">{{ $teacher->id }}</th>
-                    <td class="text-center">{{ $teacher->first_name }}</td>
-                    <td class="text-center">{{ $teacher->last_name }}</td>
-                    <td class="text-center">{{ $teacher->address }}</td>
-                    <td class="text-center">{{ $teacher->email }}</td>
-                    <td class="text-center">{{ $teacher->phone_number }}</td>
-                    <td class="text-center">{{ $teacher->grade }}</td>
-                    <td class="text-center">
-                        <a href="{{ route('teachers.show', ['teacher' => $teacher]) }}" class="btn btn-primary">Voir</a>
-                        <a href="{{ route('teachers.edit', ['teacher' => $teacher]) }}" class="btn btn-warning">Modifier</a>
-                        <form id="deleteForm-{{ $teacher->id }}" action="{{ route('teachers.destroy', ['teacher' => $teacher]) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger"
-                                onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce professeur ?')">
-                                Supprimer
-                            </button>
-                        </form>
-                    </td>
-
-                </tr>
-              @endforeach
+                @foreach ($teachers as $teacher)
+                    <tr>
+                        <td>{{ $teacher->id }}</td>
+                        <td>{{ $teacher->user->name }}</td>
+                        <td>{{ $teacher->user->email }}</td>
+                        <td>{{ $teacher->grade }}</td>
+                        <td>{{ $teacher->gender }}</td>
+                        <td>
+                            <a href="{{ route('teachers.show', $teacher->id) }}" class="btn btn-primary btn-sm">Voir</a>
+                            <a href="{{ route('teachers.edit', $teacher->id) }}" class="btn btn-warning btn-sm">Modifier</a>
+                            <form action="{{ route('teachers.destroy', $teacher->id) }}" method="POST" style="display: inline-block;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce professeur ?')">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

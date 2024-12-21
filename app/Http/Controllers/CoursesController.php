@@ -4,19 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Teacher;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class CoursesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+     public function __construct()
+     {
+        $this->middleware('auth');
+     }
     public function index()
+
     {
+        
         $courses = Course::all();
         $teachers = Teacher::all();
-        return view('home', compact('courses'));
+        return view('pages.courses.index', compact('courses'));
     }
 
     /**
@@ -46,7 +55,7 @@ class CoursesController extends Controller
          $course->teacher_id = $request->teacher_id;
          $course->save();
 
-        return redirect()->route('index')->with('success', 'cours ajouté avec success');
+        return redirect()->route('courses.index')->with('success', 'cours ajouté avec success');
     }
 
     /**
@@ -80,7 +89,7 @@ class CoursesController extends Controller
 
         $course->update($request->except('_token', '_method'));
 
-        return redirect()->route('index')->with('success', 'Cours modifié avec success');
+        return redirect()->route('courses.index')->with('success', 'Cours modifié avec success');
     }
 
     /**
@@ -92,6 +101,6 @@ class CoursesController extends Controller
             $course->delete();
         }
 
-        return redirect()->route('index')->with('success', 'cours supprimée avec success');
+        return redirect()->route('courses.index')->with('success', 'cours supprimée avec success');
     }
 }

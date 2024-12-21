@@ -1,5 +1,4 @@
-<div class="container">
-    <footer>
-        <p>&copy; 2024 Mon Site. Tous droits réservés.</p>
-    </footer>
-</div>
+<footer class="bg-dark text-white text-center py-3">
+    <p>&copy; {{ date('Y') }} Mon Application. Tous droits réservés.</p>
+</footer>
+

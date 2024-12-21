@@ -1,21 +1,22 @@
 @extends('layouts.app')
 
-@section('contenu')
+@section('title', 'Detail_professeur')
+@section('content')
 <div class="container d-flex flex-column justify-content-center align-items-center">
     <h1>Détails du professeur</h1>
-
-    <!-- Détails du Cours -->
-    <div class="card mb-4">
+    <div class="card">
         <div class="card-header">
-            <h2>{{ $teacher->first_name }} {{ $teacher->last_name }}</h2>
+            {{ $teacher->user->name }}
         </div>
         <div class="card-body">
-            <p><strong>Grade :</strong> {{ $teacher->grade }}</p>
-            <p><strong>Email :</strong> {{ $teacher->email }}</p>
-            <p><strong>Adresse :</strong> {{ $teacher->address }}</p>
+            <p><strong>Email : </strong>{{ $teacher->user->email }}</p>
+            <p><strong>Genre : </strong>{{ $teacher->gender }}</p>
+            <p><strong>Grade : </strong>{{ $teacher->grade }}</p>
+            <p><strong>Date de naissance : </strong>{{ $teacher->dateofbirth }}</p>
+            <p><strong>Adresse : </strong>{{ $teacher->address }}</p>
+            <p><strong>Téléphone : </strong>{{ $teacher->phone }}</p>
         </div>
     </div>
-
     <!-- Liste des cours -->
     <h3>Ses Cours</h3>
     @if($teacher->courses->isNotEmpty())
@@ -32,6 +33,6 @@
         <p>Aucun cours disponible pour ce professeurs.</p>
     @endif
      <!-- Boutons d'Action -->
-    <a href="{{ route('index') }}" class="btn btn-secondary">Retour à la Liste des Cours</a>
+     <a href="{{ route('teachers.index') }}" class="btn btn-secondary">Retour</a>
 </div>
 @endsection

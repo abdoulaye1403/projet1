@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('contenu')
+@section('title', 'Detaul_cours')
+@section('content')
 <div class="container d-flex flex-column justify-content-center align-items-center">
     <!-- Détails du Cours -->
     <div class="card mb-4">
@@ -9,7 +10,7 @@
         </div>
         <div class="card-body">
             <p><strong>Description :</strong> {{ $course->description }}</p>
-            <p><strong>Professeur :</strong> {{ $course->teacher?->first_name }} {{ $course->teacher?->last_name }}</p>
+            <p><strong>Professeur :</strong> {{ $course->teacher?->user->name }}</p>
             <p><strong>Date de Création :</strong> {{ $course->created_at->format('d/m/Y') }}</p>
         </div>
     </div>
@@ -52,6 +53,6 @@
     @endif
 
      <!-- Boutons d'Action -->
-    <a href="{{ route('index') }}" class="btn btn-secondary">Retour à la Liste</a>
+    <a href="{{ route('courses.index') }}" class="btn btn-secondary">Retour à la Liste</a>
 </div>
 @endsection

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('contenu')
+@section('title', 'Detail_chapitre')
+@section('content')
 <div class="container d-flex flex-column justify-content-center align-items-center">
     <h1 class="text-center">Détails du Chapitre</h1>
 
@@ -14,6 +15,6 @@
         </div>
     </div>
      <!-- Boutons d'Action -->
-    <a href="{{ route('index') }}" class="btn btn-secondary">Retour à la Liste des Cours</a>
+    <a href="{{ route('courses.index') }}" class="btn btn-secondary">Retour à la Liste des Cours</a>
 </div>
 @endsection

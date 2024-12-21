@@ -7,9 +7,23 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Teacher extends Model
 {
-    protected $fillable = ['first_name', 'last_name', 'birth_date','address','phone_number','email','grade'];
+    protected $fillable = [
+        'user_id', 
+        'dateofbirth',
+        'address',
+        'phone',
+        'gender',
+        'grade',
+    ];
     public function courses(): HasMany
     {
         return $this->hasMany(Course::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function students(){
+        return $this->courses()->withCount('students');
     }
 }

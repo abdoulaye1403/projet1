@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('contenu')
+@section('title', 'Ajouter_cours')
+@section('content')
     <div class="container">
         <h1>Ajouter un Cours</h1>
 
@@ -31,7 +32,7 @@
                 <select class="form-select" aria-label="teacher" name="teacher_id">
                     <option selected>Choisir un professeur</option>
                     @foreach ($teachers as $teacher)
-                        <option value="{{ $teacher->id }}">{{ $teacher->first_name }} {{ $teacher->last_name }}</option>
+                        <option value="{{ $teacher->id }}">{{ $teacher->user->name }}</option>
                     @endforeach
                 </select>
             </div>

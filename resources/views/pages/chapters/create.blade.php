@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('contenu')
+@section('title', 'Ajouter_chapitre')
+@section('content')
     <div class="container">
         <h1>Ajouter un Chapitre</h1>
 

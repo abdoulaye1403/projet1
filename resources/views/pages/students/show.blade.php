@@ -1,15 +1,19 @@
 @extends('layouts.app')
 
-@section('contenu')
+@section('title', 'Detail_etudiant')
+@section('content')
 <div class="container d-flex flex-column justify-content-center align-items-center">
     <!-- Détails du Cours -->
-    <div class="card mb-4">
+    <div class="card">
         <div class="card-header">
-            <h2>{{ $student->first_name }} {{ $student->last_name }}</h2>
+            {{ $student->user->name }}
         </div>
         <div class="card-body">
-            <p><strong>Email :</strong> {{ $student->email }}</p>
-            <p><strong>Adresse :</strong> {{ $student->address }}</p>
+            <p><strong>Email : </strong>{{ $student->user->email }}</p>
+            <p><strong>Genre : </strong>{{ $student->gender }}</p>
+            <p><strong>Date de naissance : </strong>{{ $student->dateofbirth }}</p>
+            <p><strong>Adresse : </strong>{{ $student->address }}</p>
+            <p><strong>Téléphone : </strong>{{ $student->phone }}</p>
         </div>
     </div>
 

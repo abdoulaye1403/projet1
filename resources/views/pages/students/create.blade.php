@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('contenu')
+@section('title', 'Ajouter_etudiants')
+@section('content')
     <div class="container">
         <h1>Ajouter un Etudiant</h1>
 
@@ -16,40 +17,46 @@
 
         <form action="{{ route('students.store') }}" method="POST">
             @csrf
-            <div class="mb-3">
-                <label for="first_name" class="form-label">Nom</label>
-                <input type="text" class="form-control" id="first_name" name="first_name" value="{{ old('first_name') }}" placeholder="Entrez le nom etudiant">
-                <span class="text-small text-danger">@error('first_name') {{ $message }} @enderror</span>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="name">Nom complet</label>
+                    <input type="text" name="name" id="name" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" class="form-control" required>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="last_name" class="form-label">Prenom</label>
-                <input type="text" class="form-control" id="last_name" name="last_name" value="{{ old('last_name') }}" placeholder="Entrez le prenom  etudiant">
-                <span class="text-small text-danger">@error('last_name') {{ $message }} @enderror</span>
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" name="password" id="password" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="gender">Genre</label>
+                    <select name="gender" id="gender" class="form-control" required>
+                        <option value="male">Homme</option>
+                        <option value="female">Femme</option>
+                        <option value="other">Autre</option>
+                    </select>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="address" class="form-label">Adresse</label>
-                <input type="text" class="form-control" id="address" name="address" value="{{ old('address') }}" placeholder="Entrez l'adresse etudiant">
-                <span class="text-small text-danger">@error('last_name') {{ $message }} @enderror</span>
+                <div class="col-md-6">
+                    <label for="dateofbirth">Date de naissance</label>
+                    <input type="date" name="dateofbirth" id="dateofbirth" class="form-control" required>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="birth_date" class="form-label">Date de naissance</label>
-                <input type="date" class="form-control" id="birth_date" name="birth_date" value="{{ old('birth_date') }}" placeholder="Entrez la date de naissance etudiant">
-                <span class="text-small text-danger">@error('birth_date') {{ $message }} @enderror</span>
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label for="address">Adresse</label>
+                    <input type="text" name="address" id="address" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="phone">Téléphone</label>
+                    <input type="text" name="phone" id="phone" class="form-control" required>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="phone_number" class="form-label">Telephone</label>
-                <input type="number" class="form-control" id="phone_number" name="phone_number" value="{{ old('phone_number') }}" placeholder="Entrez le numero de telephone etudiant">
-                <span class="text-small text-danger">@error('phone_number') {{ $message }} @enderror</span>
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" placeholder="Entrez l'email etudiant">
-                <span class="text-small text-danger">@error('email') {{ $message }} @enderror</span>
-            </div>
-
-            <div class="mb-5">
-                <button class="btn btn-primary" type="submit">Enregistrer</button>
-            </div>
+            <button type="submit" class="btn btn-primary mt-4">Créer l'etudiant</button>
         </form>
     </div>
 @endsection

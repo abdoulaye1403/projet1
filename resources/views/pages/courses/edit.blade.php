@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('contenu')
+@section('title', 'Editer_cours')
+@section('content')
     <div class="container">
         <h1>Modifier un Cours</h1>
 
@@ -32,7 +33,7 @@
                 <select class="form-select" aria-label="teacher" name="teacher_id">
                     <option selected>Choisir un professeur</option>
                     @foreach ($teachers as $teacher)
-                        <option @if($teacher->id == $course->teacher_id) selected @endif value="{{ $teacher->id }}">{{ $teacher->first_name }} {{ $teacher->last_name }}</option>
+                        <option @if($teacher->id == $course->teacher_id) selected @endif value="{{ $teacher->id }}">{{ $teacher->user->name }}</option>
                     @endforeach
                 </select>
             </div>
