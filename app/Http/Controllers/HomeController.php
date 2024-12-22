@@ -24,4 +24,10 @@ class HomeController extends Controller
         $teachers = Teacher::all();
         return view('home',compact('courses'));
     }
+    public function show(Course $course)
+    {
+        $teachers = Teacher::all();
+        return view('homeCourseShow', compact('course', 'teachers'));
+    }
+
 }

@@ -14,8 +14,7 @@
                 </ul>
             </div>
         @endif
-
-        <form action="{{ route('chapters.store') }}" method="POST">
+        <form action="{{ route('courses.chapters.store', $course_id) }}" method="POST">
             @csrf
             <div class="mb-3">
                 <label for="title" class="form-label">Titre</label>
@@ -27,7 +26,7 @@
                 <label for="content" class="form-label">Description</label>
                 <textarea id="content" name="content" class="form-control" rows="5">{{ old('content') }}</textarea>
             </div>
-            <input type="hidden" name="course_id" value="{{ request('course_id') }}">
+            <input type="hidden" name="course_id" value="{{ $course_id }}">
             <div class="mb-5">
                 <button class="btn btn-primary" type="submit">Enregistrer</button>
             </div>

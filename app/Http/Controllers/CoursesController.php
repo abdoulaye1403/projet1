@@ -22,9 +22,9 @@ class CoursesController extends Controller
     public function index()
 
     {
-        
         $courses = Course::all();
         $teachers = Teacher::all();
+        
         return view('pages.courses.index', compact('courses'));
     }
 

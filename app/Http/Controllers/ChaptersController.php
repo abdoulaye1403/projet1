@@ -25,9 +25,9 @@ class ChaptersController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create(Request $request,Course $course)
     {
-        $course_id = $request->query('course_id');
+        $course_id = $course->id;
         return view('pages.chapters.create', compact('course_id'));
     }
 
@@ -54,17 +54,22 @@ class ChaptersController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Chapter $chapter)
+    public function show(Course $course,Chapter $chapter)
     {
-        return view('pages.chapters.show', compact('chapter'));
+        if ($chapter->course_id !== $course->id) {
+            abort(404, 'Chapitre non trouvé dans ce cours');
+        }
+    
+        return view('pages.chapters.show', compact('course', 'chapter'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Chapter $chapter)
+    public function edit(Request $request,Course $course)
     {
-        return view('pages.chapters.edit', compact('chapter'));
+        $course_id = $course->id;
+        return view('pages.chapters.edit', compact('course_id'));
     }
 
     /**

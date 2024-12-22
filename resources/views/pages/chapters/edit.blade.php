@@ -15,7 +15,7 @@
             </div>
         @endif
 
-        <form action="{{ route('chapters.update',['chapter' => $chapter]) }}" method="POST">
+        <form action="{{ route('courses.chapters.update') }}" method="POST">
             @csrf
             @method('PUT')
             <div class="mb-3">
@@ -28,7 +28,7 @@
                 <label for="content" class="form-label">Description</label>
                 <textarea id="content" name="content" class="form-control" rows="5">{{  $chapter->content }}</textarea>
             </div>
-            <input type="hidden" name="course_id" value="{{ $chapter->course_id }}">
+            <input type="hidden" name="course_id" value="{{ $course_id }}">
             <div class="mb-5">
                 <button class="btn btn-primary" type="submit">Modifier</button>
             </div>

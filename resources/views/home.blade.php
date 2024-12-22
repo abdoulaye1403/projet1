@@ -21,9 +21,14 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ $course->title }}</h5>
                                 <p class="card-text">{{ Str::limit($course->description, 100) }}</p>
-                                <p><strong>Enseignant :</strong> {{ $course->teacher?->name }}</p>
-                                <a href="{{ route('courses.show', $course->id) }}" class="btn btn-primary">Voir le cours</a>
-                                <a href="" class="btn btn-success">S'inscrire</a>
+                                <p><strong>Professeur :</strong> {{ $course->teacher?->user->name }}</p>
+                                <a href="{{ route('show_course', $course->id) }}" class="btn btn-primary">Voir le cours</a>
+                                @auth
+                                    @if (auth()->user()->hasRole('student'))
+                                        <a href="" class="btn btn-success">S'inscrire</a>
+                                    @endif
+                                @endauth
+                                
                             </div>
                         </div>
                     </div>

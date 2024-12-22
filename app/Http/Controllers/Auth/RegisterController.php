@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Role;
 
 class RegisterController extends Controller
 {
@@ -55,7 +56,6 @@ class RegisterController extends Controller
             'role' => ['required', 'string', 'in:admin,teacher,student'],
         ]);
     }
-
     /**
      * Create a new user instance after a valid registration.
      *
@@ -68,7 +68,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'role' => $data['role'],
+            'role_id' => Role::where('name', $data['role'])->value('id'),
         ]);
     }
 }

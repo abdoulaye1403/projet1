@@ -7,6 +7,7 @@ use App\Models\StudentCourse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
 class StudentsController extends Controller
@@ -53,7 +54,7 @@ class StudentsController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'student', // Attribuer directement le rôle de l'etudiant
+            'role_id' => Role::where('name', 'student')->first()->id // Attribuer directement le rôle de l'etudiant
         ]);
 
         // Créer l'etudiant lié à l'utilisateur

@@ -23,10 +23,10 @@
                         </li>
                     @elseif (auth()->user()->hasRole('teacher'))
                         <li class="nav-item">
-                            <a href="{{ route('teachers.courses') }}" class="nav-link">Mes Cours</a>
+                            <a href="{{ route('teachers.courses', auth()->user()->teacher->id) }}" class="nav-link">Mes Cours</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('teachers.students.index') }}" class="nav-link">Liste des Étudiants</a>
+                            <a href="" class="nav-link">Liste des Étudiants</a>
                         </li>
                     @elseif (auth()->user()->hasRole('student'))
                         <li class="nav-item">

@@ -9,14 +9,19 @@ use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\TeachersController;
 use App\Http\Controllers\StudentCoursesController;
 
-Route::middleware(['auth', 'admin'])->group(function() {
+Route::middleware(['auth','AdminMiddleware:admin'])->group(function() {
     Route::resource('courses', CoursesController::class);
     Route::resource('teachers', TeachersController::class);
     Route::resource('students', StudentsController::class);
-    Route::resource('chapters', ChaptersController::class);
     Route::resource('studentscourses', StudentCoursesController::class);
 });
 
-Auth::routes();
+Route::middleware(['auth','TeacherMiddleware:teacher'])->group(function() {
+    Route::resource('courses', CoursesController::class)->except(['index','show']);
+    Route::get('teachers/{teacher}/courses', [TeachersController::class, 'showCourses'])->name('teachers.courses');
+});
 
+Auth::routes();
+Route::resource('courses.chapters', ChaptersController::class);
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/course/{course}', [HomeController::class, 'show'])->name('show_course');

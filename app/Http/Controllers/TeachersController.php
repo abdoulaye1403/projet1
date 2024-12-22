@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Teacher,App\Models\Course;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Validator;
+use App\Models\Role;
+
 use Illuminate\Support\Facades\Hash;
 
 class TeachersController extends Controller
@@ -53,7 +54,7 @@ class TeachersController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'teacher', // Attribuer directement le rôle de professeur
+            'role_id' => Role::where('name', 'teacher')->first()->id, // Attribuer directement le rôle de professeur
         ]);
 
         // Créer le professeur lié à l'utilisateur
@@ -119,6 +120,15 @@ class TeachersController extends Controller
         ]);
     
         return redirect()->route('teachers.index')->with('success', 'Professeur mis à jour avec succès.');
+    }
+
+    public function showCourses($id)
+    {
+        // Récupérer le professeur avec ses cours
+        $teacher = Teacher::with('courses')->findOrFail($id);
+        
+        // Retourner une vue avec les données du professeur
+        return view('pages.teachers.courses', compact('teacher'));
     }
 
     /**

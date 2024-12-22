@@ -67,7 +67,6 @@
                             <div class="col-md-6">
                                 <select id="role" name="role" class="form-control @error('role') is-invalid @enderror" required>
                                     <option value="" disabled selected>{{ __('Choose a role') }}</option>
-                                    <option value="admin">{{ __('Admin') }}</option>
                                     <option value="teacher">{{ __('Professor') }}</option>
                                     <option value="student">{{ __('Etudiant') }}</option>
                                 </select>

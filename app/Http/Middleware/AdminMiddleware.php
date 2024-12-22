@@ -8,5 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminMiddleware
 {
-    
+    public function handle(Request $request, Closure $next)
+    {
+        if (Auth::check() && Auth::user()->role_id == 7) {
+            return $next($request);
+        }
+        abort('403', 'Accès non autorisé.');
+    }
 }

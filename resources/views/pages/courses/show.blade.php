@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Detaul_cours')
+@section('title', 'Detail_cours')
 @section('content')
 <div class="container d-flex flex-column justify-content-center align-items-center">
     <!-- Détails du Cours -->
