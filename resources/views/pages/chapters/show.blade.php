@@ -15,6 +15,14 @@
         </div>
     </div>
      <!-- Boutons d'Action -->
-    <a href="{{ route('teachers.courses.index') }}" class="btn btn-secondary">Retour à la Liste des Cours</a>
+    @if (auth()->check())
+        @if (auth()->user()->hasRole('teacher'))
+            <a href="{{ route('teachers.courses.index', $teacher) }}" class="btn btn-secondary">Retour à la Liste des Cours</a>
+        @else
+            <a href="{{ route('show_course', $course->id) }}" class="btn btn-primary">Retour</a>
+        @endif
+    @else
+        <a href="{{ route('show_course', $course->id) }}" class="btn btn-primary">Retour</a>
+    @endif
 </div>
 @endsection

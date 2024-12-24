@@ -38,9 +38,9 @@
                         <td class="text-center">{{$chapitre->title}}</td>
                         <td class="text-center">{{ Str::limit($chapitre->content, 150) }}</td>
                         <td class="text-center">
-                            <a href="{{ route('courses.chapters.show',['chapter' => $chapitre]) }}" class="btn btn-primary btn-sm m-1">Voir</a>
-                            <a href="{{ route('courses.chapters.edit',['chapter' => $chapitre]) }}" class="btn btn-warning btn-sm m-1">Modifier</a>
-                            <form id="deleteForm-{{ $chapitre->id }}" action="{{ route('courses.chapters.destroy', ['chapter' => $chapitre]) }}" method="POST" class="d-inline">
+                            <a href="{{ route('courses.chapters.show',['teacher' => $course->teacher_id,$course,'chapter' => $chapitre]) }}" class="btn btn-primary btn-sm m-1">Voir</a>
+                            <a href="{{ route('courses.chapters.edit',[$course,'chapter' => $chapitre]) }}" class="btn btn-warning btn-sm m-1">Modifier</a>
+                            <form id="deleteForm-{{ $chapitre->id }}" action="{{ route('courses.chapters.destroy', [$course,'chapter' => $chapitre->id]) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger m-1 btn-sm"

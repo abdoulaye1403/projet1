@@ -25,6 +25,7 @@
                     <th class="text-center">#</th>
                     <th class="text-center">Nom du chapitre</th>
                     <th class="text-center">Contenu</th>
+                    <th class="text-center">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,6 +34,9 @@
                         <td class="text-center">{{ $chapter->id }}</td>
                         <td class="text-center">{{$chapter->title}}</td>
                         <td class="text-center">{{ Str::limit($chapter->content, 150) }}</td>
+                        <td class="text-center">
+                            <a href="{{ route('courses.chapters.show',['teacher' => $course->teacher_id,$course,'chapter' => $chapter]) }}" class="btn btn-primary btn-sm m-1">Voir</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

@@ -18,5 +18,6 @@ Route::middleware(['auth','TeacherMiddleware:teacher'])->group(function() {
 });
 
 Auth::routes();
+Route::get('teachers/{teacher}/courses/{course}/chapters/{chapter}', [ChaptersController::class, 'show'])->name('courses.chapters.show');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/course/{course}', [HomeController::class, 'show'])->name('show_course');

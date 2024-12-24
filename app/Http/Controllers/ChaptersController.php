@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Chapter;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,7 +16,7 @@ class ChaptersController extends Controller
 
      public function __construct()
      {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('show');
      }
     public function index()
     {
@@ -34,7 +35,7 @@ class ChaptersController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,Course $course)
     {
         $request->validate([
             'title' => 'required|string|max:255',
@@ -48,34 +49,34 @@ class ChaptersController extends Controller
             'course_id' => $request->course_id,
         ]);
 
-         return redirect()->route('courses.index')->with('success', 'Chapitre ajouté avec success');
+         return redirect()->route('teachers.courses.show',['teacher' => $course->teacher_id, 'course' => $course->id])->with('success', 'Chapitre ajouté avec success');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Course $course,Chapter $chapter)
+    public function show(Teacher $teacher,Course $course,Chapter $chapter)
     {
         if ($chapter->course_id !== $course->id) {
             abort(404, 'Chapitre non trouvé dans ce cours');
         }
     
-        return view('pages.chapters.show', compact('course', 'chapter'));
+        return view('pages.chapters.show', compact('teacher','course', 'chapter'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request,Course $course)
+    public function edit(Request $request,Course $course,Chapter $chapter)
     {
         $course_id = $course->id;
-        return view('pages.chapters.edit', compact('course_id'));
+        return view('pages.chapters.edit', compact('course_id','chapter'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Chapter $chapter)
+    public function update(Request $request,Course $course, Chapter $chapter)
     {
         $request->validate([
             'title' => 'required|string|max:255',
@@ -87,18 +88,18 @@ class ChaptersController extends Controller
             'content' => $request->content,
         ]);
 
-         return redirect()->route('courses.show', $chapter->course_id )->with('success', 'Chapitre modifie avec success');
+         return redirect()->route('teachers.courses.show', ['teacher' => $course->teacher_id, 'course' => $course->id] )->with('success', 'Chapitre modifie avec success');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Chapter $chapter)
+    public function destroy(Request $request,Course $course,Chapter $chapter)
     {
-        if($chapter && $chapter->id != null) {
+        if($chapter) {
             $chapter->delete();
         }
 
-        return redirect()->route('courses.show', $chapter->course_id)->with('success', 'chapitre supprimé avec success');
+        return redirect()->route('teachers.courses.show', ['teacher' => $course->teacher_id, 'course' => $course->id])->with('success', 'chapitre supprimé avec success');
     }
 }
