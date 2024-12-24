@@ -122,15 +122,6 @@ class TeachersController extends Controller
         return redirect()->route('teachers.index')->with('success', 'Professeur mis à jour avec succès.');
     }
 
-    public function showCourses($id)
-    {
-        // Récupérer le professeur avec ses cours
-        $teacher = Teacher::with('courses')->findOrFail($id);
-        
-        // Retourner une vue avec les données du professeur
-        return view('pages.teachers.courses', compact('teacher'));
-    }
-
     /**
      * Remove the specified resource from storage.
      */

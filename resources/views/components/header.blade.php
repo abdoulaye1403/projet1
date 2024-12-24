@@ -10,23 +10,19 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
             <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a href="{{ route('home') }}" class="nav-link" title="Page d'accueil">Accueil</a>
+                </li>       
                 @auth
-                    @if (auth()->user()->hasRole('admin'))
+                    @if (auth()->user()->hasRole('teacher')  && auth()->user()->teacher)
                         <li class="nav-item">
-                            <a href="{{ route('courses.index') }}" class="nav-link" title="Page d'accueil">Cours</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('teachers.index') }}" class="nav-link" title="Voir les professeurs">Professeurs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('students.index') }}" class="nav-link" title="Voir les étudiants">Etudiants</a>
-                        </li>
-                    @elseif (auth()->user()->hasRole('teacher'))
-                        <li class="nav-item">
-                            <a href="{{ route('teachers.courses', auth()->user()->teacher->id) }}" class="nav-link">Mes Cours</a>
+                            <a href="{{ route('teachers.courses.index', auth()->user()->teacher->id) }}" class="nav-link">Mes Cours</a>
                         </li>
                         <li class="nav-item">
                             <a href="" class="nav-link">Liste des Étudiants</a>
+                        </li>     
+                        <li class="nav-item">
+                            <a href="" class="nav-link">Mon Profil</a>
                         </li>
                     @elseif (auth()->user()->hasRole('student'))
                         <li class="nav-item">
@@ -41,9 +37,6 @@
 
             <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a href="{{ route('home') }}" class="nav-link" title="Page d'accueil">Accueil</a>
-                </li>
                 <!-- Authentication Links -->
                 @guest
                     @if (Route::has('login'))

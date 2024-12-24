@@ -16,7 +16,7 @@ class TeacherMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->role_id == 8) {
+        if (Auth::check() && Auth::user()->role_id == 1) {
             return $next($request);
         }
         abort('403', 'Accès non autorisé.');

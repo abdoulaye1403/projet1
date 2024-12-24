@@ -79,6 +79,104 @@
                             </div>
                         </div>
 
+                        <!-- Champs spécifiques aux professeurs -->
+                        <div id="teacher-fields" style="display: none;">
+                            <div class="row mb-3">
+                                <label for="teacher-dateofbirth" class="col-md-4 col-form-label text-md-end">{{ __('Date of Birth Teacher') }}</label>
+                                <div class="col-md-6">
+                                    <input id="teacher-dateofbirth" type="date" class="form-control" name="teacher-dateofbirth">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="teacher-address" class="col-md-4 col-form-label text-md-end">{{ __('Address Teacher') }}</label>
+                                <div class="col-md-6">
+                                    <input id="teacher-address" type="text" class="form-control" name="teacher-address">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="teacher-phone" class="col-md-4 col-form-label text-md-end">{{ __('Phone Teacher') }}</label>
+                                <div class="col-md-6">
+                                    <input id="teacher-phone" type="text" class="form-control" name="teacher-phone">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="teacher-gender" class="col-md-4 col-form-label text-md-end">{{ __('Gender') }}</label>
+    
+                                <div class="col-md-6">
+                                    <select id="teacher-gender" name="teacher-gender" class="form-control @error('gender') is-invalid @enderror">
+                                        <option value="" disabled selected>{{ __('Choose a genre') }}</option>
+                                        <option value="Male">{{ __('Male') }}</option>
+                                        <option value="Femele">{{ __('Femele') }}</option>
+                                    </select>
+    
+                                    @error('gender')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="teacher-grade" class="col-md-4 col-form-label text-md-end">{{ __('Grade Teacher') }}</label>
+    
+                                <div class="col-md-6">
+                                    <select id="teacher-grade" name="teacher-grade" class="form-control @error('grade') is-invalid @enderror">
+                                        <option value="" disabled selected>{{ __('Choose a grade') }}</option>
+                                        <option value="Master">{{ __('Master') }}</option>
+                                        <option value="Doctorat">{{ __('Doctorat') }}</option>
+                                    </select>
+    
+                                    @error('grade')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Champs spécifiques aux etudiants -->
+                        <div id="student-fields" style="display: none;">
+                            <div class="row mb-3">
+                                <label for="student-dateofbirth" class="col-md-4 col-form-label text-md-end">{{ __('Date of Birth Student') }}</label>
+                                <div class="col-md-6">
+                                    <input id="student-dateofbirth" type="date" class="form-control" name="student-dateofbirth">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="student-address" class="col-md-4 col-form-label text-md-end">{{ __('Address Student') }}</label>
+                                <div class="col-md-6">
+                                    <input id="student-address" type="text" class="form-control" name="student-address">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="student-phone" class="col-md-4 col-form-label text-md-end">{{ __('Phone Student') }}</label>
+                                <div class="col-md-6">
+                                    <input id="student-phone" type="text" class="form-control" name="student-phone">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="student-gender" class="col-md-4 col-form-label text-md-end">{{ __('Gender Student') }}</label>
+    
+                                <div class="col-md-6">
+                                    <select id="student-gender" name="student-gender" class="form-control @error('gender') is-invalid @enderror">
+                                        <option value="" disabled selected>{{ __('Choose a genre') }}</option>
+                                        <option value="Male">{{ __('Male') }}</option>
+                                        <option value="Femele">{{ __('Femele') }}</option>
+                                    </select>
+    
+                                    @error('gender')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
@@ -93,4 +191,22 @@
         </div>
     </div>
 </div>
+<script>
+    const roleSelect = document.getElementById('role');
+    const teacherFields = document.getElementById('teacher-fields');
+    const studentFields = document.getElementById('student-fields');
+
+    roleSelect.addEventListener('change', (event) => {
+        if (event.target.value === 'teacher') {
+            teacherFields.style.display = 'block';
+            studentFields.style.display = 'none';
+        } else if (event.target.value === 'student') {
+            studentFields.style.display = 'block';
+            teacherFields.style.display = 'none';
+        } else {
+            teacherFields.style.display = 'none';
+            studentFields.style.display = 'none';
+        }
+    });
+</script>
 @endsection

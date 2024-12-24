@@ -22,19 +22,18 @@ class CoursesController extends Controller
     public function index()
 
     {
-        $courses = Course::all();
-        $teachers = Teacher::all();
-        
-        return view('pages.courses.index', compact('courses'));
+        $teacher = Teacher::find(auth()->user()->teacher->id); // Exemple pour récupérer le professeur
+        $courses = Course::where('teacher_id', $teacher->id)->get();
+        return view('pages.courses.index', compact('teacher','courses'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request,Teacher $teacher)
     {
-        $teachers = Teacher::all();
-        return view('pages.courses.create', compact('teachers'));
+        $teacher_id = $teacher->id;
+        return view('pages.courses.create', compact('teacher_id'));
     }
 
     /**
@@ -55,16 +54,18 @@ class CoursesController extends Controller
          $course->teacher_id = $request->teacher_id;
          $course->save();
 
-        return redirect()->route('courses.index')->with('success', 'cours ajouté avec success');
+        return redirect()->route('teachers.courses.index')->with('success', 'cours ajouté avec success');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Course $course)
+    public function show($teacher_id, $course_id)
     {
-        $teachers = Teacher::all();
-        return view('pages.courses.show', compact('course', 'teachers'));
+
+        $teacher = Teacher::findOrFail($teacher_id);
+        $course = Course::findOrFail($course_id);
+        return view('pages.courses.show', compact('teacher', 'course'));
     }
 
     /**
@@ -89,7 +90,7 @@ class CoursesController extends Controller
 
         $course->update($request->except('_token', '_method'));
 
-        return redirect()->route('courses.index')->with('success', 'Cours modifié avec success');
+        return redirect()->route('teachers.courses.index')->with('success', 'Cours modifié avec success');
     }
 
     /**
@@ -101,6 +102,6 @@ class CoursesController extends Controller
             $course->delete();
         }
 
-        return redirect()->route('courses.index')->with('success', 'cours supprimée avec success');
+        return redirect()->route('teachers.courses.index')->with('success', 'cours supprimée avec success');
     }
 }

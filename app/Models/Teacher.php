@@ -9,11 +9,11 @@ class Teacher extends Model
 {
     protected $fillable = [
         'user_id', 
+        'gender',
+        'grade',
         'dateofbirth',
         'address',
         'phone',
-        'gender',
-        'grade',
     ];
     public function courses(): HasMany
     {

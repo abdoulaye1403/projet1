@@ -17,6 +17,9 @@
     <!-- Liste des Chapitres -->
     <h3>Chapitres</h3>
     @if ($course->chapters->isEmpty())
+        @if (auth()->user()->hasRole('teacher'))
+            <a href="{{ route('courses.chapters.create',['course' => $course]) }}" class="btn btn-secondary btn-sm m-1">Ajouter un chapitre</a> 
+        @endif
         <p>Aucun chapitre trouvé.</p>
     @else
         <table class="table table-bordered">
@@ -35,9 +38,9 @@
                         <td class="text-center">{{$chapitre->title}}</td>
                         <td class="text-center">{{ Str::limit($chapitre->content, 150) }}</td>
                         <td class="text-center">
-                            <a href="{{ route('chapters.show',['chapter' => $chapitre]) }}" class="btn btn-primary btn-sm m-1">Voir</a>
-                            <a href="{{ route('chapters.edit',['chapter' => $chapitre]) }}" class="btn btn-warning btn-sm m-1">Modifier</a>
-                            <form id="deleteForm-{{ $chapitre->id }}" action="{{ route('chapters.destroy', ['chapter' => $chapitre]) }}" method="POST" class="d-inline">
+                            <a href="{{ route('courses.chapters.show',['chapter' => $chapitre]) }}" class="btn btn-primary btn-sm m-1">Voir</a>
+                            <a href="{{ route('courses.chapters.edit',['chapter' => $chapitre]) }}" class="btn btn-warning btn-sm m-1">Modifier</a>
+                            <form id="deleteForm-{{ $chapitre->id }}" action="{{ route('courses.chapters.destroy', ['chapter' => $chapitre]) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger m-1 btn-sm"
@@ -53,6 +56,6 @@
     @endif
 
      <!-- Boutons d'Action -->
-    <a href="{{ route('courses.index') }}" class="btn btn-secondary">Retour à la Liste</a>
+    <a href="{{ route('teachers.courses.index') }}" class="btn btn-secondary">Retour à la Liste</a>
 </div>
 @endsection

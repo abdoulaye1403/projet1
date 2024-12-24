@@ -9,10 +9,10 @@ class Student extends Model
 {
     protected $fillable = [
         'user_id', 
+        'gender',
         'dateofbirth',
         'address',
         'phone',
-        'gender'
     ];
     public function courses(): BelongsToMany
     {
