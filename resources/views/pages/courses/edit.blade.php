@@ -15,7 +15,7 @@
             </div>
         @endif
 
-        <form action="{{ route('teachers.courses.update',['course' => $course]) }}" method="POST">
+        <form action="{{ route('teachers.courses.update',[$teacher_id,'course' => $course]) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="mb-3">
@@ -29,15 +29,7 @@
                 <input type="text" class="form-control" id="description" name="description" value="{{ $course->description }}" placeholder="Entrez une description">
             </div>
 
-            <div class="mb-3">
-                <select class="form-select" aria-label="teacher" name="teacher_id">
-                    <option selected>Choisir un professeur</option>
-                    @foreach ($teachers as $teacher)
-                        <option @if($teacher->id == $course->teacher_id) selected @endif value="{{ $teacher->id }}">{{ $teacher->user->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-
+            <input type="hidden" name="teacher_id" value="{{ $teacher_id }}">
             <div class="mb-5">
                 <button class="btn btn-primary" type="submit">Modifier</button>
             </div>

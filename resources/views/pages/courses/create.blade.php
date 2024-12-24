@@ -15,7 +15,7 @@
             </div>
         @endif
 
-        <form action="{{ route('teachers.courses.store') }}" method="POST">
+        <form action="{{ route('teachers.courses.store',$teacher_id) }}" method="POST">
             @csrf
             <div class="mb-3">
                 <label for="title" class="form-label">Nom</label>
@@ -28,15 +28,7 @@
                 <input type="text" class="form-control" id="description" name="description" value="{{ old('description') }}" placeholder="Entrez une description">
             </div>
 
-            <div class="mb-3">
-                <select class="form-select" aria-label="teacher" name="teacher_id">
-                    <option selected>Choisir un professeur</option>
-                    @foreach ($teachers as $teacher)
-                        <option value="{{ $teacher->id }}">{{ $teacher->user->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-
+            <input type="hidden" name="teacher_id" value="{{ $teacher_id }}">
             <div class="mb-5">
                 <button class="btn btn-primary" type="submit">Enregistrer</button>
             </div>

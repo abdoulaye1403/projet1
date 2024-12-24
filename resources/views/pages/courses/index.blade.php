@@ -5,7 +5,7 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
             <h1 class="mb-3 mt-3">Liste des Cours</h1>
-            <a href="{{ route('teachers.courses.create',$teacher->id) }}" class="btn btn-primary">Ajouter un Cours</a>
+            <a href="{{ route('teachers.courses.create',$teacher) }}" class="btn btn-primary">Ajouter un Cours</a>
         </div>
 
         @session('success')
@@ -20,7 +20,6 @@
                 <th scope="col" class="text-center">#</th>
                 <th scope="col" class="text-center">Titre</th>
                 <th scope="col" class="text-center">Description</th>
-                <th scope="col" class="text-center">Professeur</th>
                 <th scope="col" class="text-center">Actions</th>
               </tr>
             </thead>
@@ -30,11 +29,10 @@
                     <th scope="row" class="text-center">{{ $course->id }}</th>
                     <td class="text-center">{{ $course->title }}</td>
                     <td class="text-center">{{ $course->description }}</td>
-                    <td class="text-center">{{ $course->teacher?->user->name }}</td>
                     <td class="text-center">
-                        <a href="{{ route('teachers.courses.show', ['teacher' => $teacher->id, 'course' => $course->id]) }}" class="btn btn-primary btn-sm rounded">Voir</a>
-                        <a href="{{ route('teachers.courses.edit', ['teacher' => $teacher->id, 'course' => $course->id]) }}" class="btn btn-warning btn-sm rounded">Modifier</a>
-                        <form id="deleteForm-{{ $course->id }}" action="{{ route('teachers.courses.destroy', ['teacher' => $teacher->id, 'course' => $course->id]) }}" method="POST" class="d-inline">
+                        <a href="{{ route('teachers.courses.show', [$teacher, 'course' => $course->id]) }}" class="btn btn-primary btn-sm rounded">Voir</a>
+                        <a href="{{ route('teachers.courses.edit', [$teacher, 'course' => $course->id]) }}" class="btn btn-warning btn-sm rounded">Modifier</a>
+                        <form id="deleteForm-{{ $course->id }}" action="{{ route('teachers.courses.destroy',[$teacher,'course' => $course->id]) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm rounded"

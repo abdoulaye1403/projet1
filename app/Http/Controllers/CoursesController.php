@@ -19,7 +19,7 @@ class CoursesController extends Controller
      {
         $this->middleware('auth');
      }
-    public function index()
+    public function index(Request $request,Teacher $teacher)
 
     {
         $teacher = Teacher::find(auth()->user()->teacher->id); // Exemple pour récupérer le professeur
@@ -39,7 +39,7 @@ class CoursesController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,Teacher $teacher)
     {
         Validator::make($request->all(), [
            'title' => ['required', 'string', 'max:50'],
@@ -54,7 +54,7 @@ class CoursesController extends Controller
          $course->teacher_id = $request->teacher_id;
          $course->save();
 
-        return redirect()->route('teachers.courses.index')->with('success', 'cours ajouté avec success');
+        return redirect()->route('teachers.courses.index',$request->teacher_id)->with('success', 'cours ajouté avec success');
     }
 
     /**
@@ -71,16 +71,16 @@ class CoursesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request,Course $course)
+    public function edit(Request $request,Teacher $teacher,Course $course)
     {
-        $teachers = Teacher::all();
-        return view('pages.courses.edit', compact('course', 'teachers'));
+        $teacher_id = $teacher->id;
+        return view('pages.courses.edit', compact('course', 'teacher_id'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Course $course)
+    public function update(Request $request,Teacher $teacher,Course $course)
     {
         Validator::make($request->all(), [
             'title' => ['required', 'string', 'max:50'],
@@ -90,18 +90,18 @@ class CoursesController extends Controller
 
         $course->update($request->except('_token', '_method'));
 
-        return redirect()->route('teachers.courses.index')->with('success', 'Cours modifié avec success');
+        return redirect()->route('teachers.courses.index',$request->teacher_id)->with('success', 'Cours modifié avec success');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request,Course $course)
+    public function destroy(Request $request,Teacher $teacher,Course $course)
     {
-        if($course && $course->id != null) {
+        if ($course) {
             $course->delete();
         }
 
-        return redirect()->route('teachers.courses.index')->with('success', 'cours supprimée avec success');
+        return redirect()->route('teachers.courses.index',$teacher)->with('success', 'cours supprimée avec success');
     }
 }

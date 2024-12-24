@@ -17,10 +17,10 @@
     <!-- Liste des Chapitres -->
     <h3>Chapitres</h3>
     @if ($course->chapters->isEmpty())
-        @if (auth()->user()->hasRole('teacher'))
-            <a href="{{ route('courses.chapters.create',['course' => $course]) }}" class="btn btn-secondary btn-sm m-1">Ajouter un chapitre</a> 
-        @endif
         <p>Aucun chapitre trouvé.</p>
+        @if (auth()->user()->hasRole('teacher'))
+        <a href="{{ route('courses.chapters.create',['course' => $course]) }}" class="btn btn-secondary btn-sm m-1">Ajouter un chapitre</a> 
+    @endif
     @else
         <table class="table table-bordered">
             <thead>
@@ -56,6 +56,6 @@
     @endif
 
      <!-- Boutons d'Action -->
-    <a href="{{ route('teachers.courses.index') }}" class="btn btn-secondary">Retour à la Liste</a>
+    <a href="{{ route('teachers.courses.index',$teacher) }}" class="btn btn-secondary">Retour à la Liste</a>
 </div>
 @endsection

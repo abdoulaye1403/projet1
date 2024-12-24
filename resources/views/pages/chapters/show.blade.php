@@ -15,6 +15,6 @@
         </div>
     </div>
      <!-- Boutons d'Action -->
-    <a href="{{ route('courses.index') }}" class="btn btn-secondary">Retour à la Liste des Cours</a>
+    <a href="{{ route('teachers.courses.index') }}" class="btn btn-secondary">Retour à la Liste des Cours</a>
 </div>
 @endsection
