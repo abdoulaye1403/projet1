@@ -108,7 +108,7 @@
                                     <select id="teacher-gender" name="teacher-gender" class="form-control @error('gender') is-invalid @enderror">
                                         <option value="" disabled selected>{{ __('Choose a genre') }}</option>
                                         <option value="Male">{{ __('Male') }}</option>
-                                        <option value="Femele">{{ __('Femele') }}</option>
+                                        <option value="Female">{{ __('Female') }}</option>
                                     </select>
     
                                     @error('gender')
@@ -165,7 +165,7 @@
                                     <select id="student-gender" name="student-gender" class="form-control @error('gender') is-invalid @enderror">
                                         <option value="" disabled selected>{{ __('Choose a genre') }}</option>
                                         <option value="Male">{{ __('Male') }}</option>
-                                        <option value="Femele">{{ __('Femele') }}</option>
+                                        <option value="Female">{{ __('Female') }}</option>
                                     </select>
     
                                     @error('gender')

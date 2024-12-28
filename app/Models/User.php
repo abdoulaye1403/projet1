@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use TCG\Voyager\Models\Role;
 
-class User extends Authenticatable
+class User extends \TCG\Voyager\Models\User
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -52,14 +53,5 @@ class User extends Authenticatable
     }
     public function teacher(){
         return $this->hasOne(Teacher::class);
-    }
-    public function role(): BelongsTo
-    {
-        return $this->belongsTo(Role::class);
-    }
-
-    public function hasRole(string $roleName): bool
-    {
-        return $this->role && $this->role->name === $roleName;
     }
 }

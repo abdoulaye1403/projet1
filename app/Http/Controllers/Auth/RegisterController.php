@@ -9,7 +9,8 @@ use App\Models\Student;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Role;
+use TCG\Voyager\Models\Role;
+
 
 class RegisterController extends Controller
 {
@@ -63,12 +64,12 @@ class RegisterController extends Controller
             $rules['teacher-address'] = ['required', 'string', 'max:255'];
             $rules['teacher-phone'] = ['required', 'string', 'max:15'];
             $rules['teacher-grade'] = ['required', 'string', 'in:Master,Doctorat'];
-            $rules['teacher-gender'] = ['required', 'string', 'in:Male,Femele'];
+            $rules['teacher-gender'] = ['required', 'string', 'in:Male,Female'];
         } elseif (isset($data['role']) && $data['role'] === 'student') {
             $rules['student-dateofbirth'] = ['required', 'date'];
             $rules['student-address'] = ['required', 'string', 'max:255'];
             $rules['student-phone'] = ['required', 'string', 'max:15'];
-            $rules['student-student'] = ['required', 'string', 'in:Male,Femele'];
+            $rules['student-student'] = ['required', 'string', 'in:Male,Female'];
         }
     
         return Validator::make($data, $rules);
