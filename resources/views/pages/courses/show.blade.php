@@ -4,7 +4,7 @@
 @section('content')
 <div class="container d-flex flex-column justify-content-center align-items-center">
     <!-- Détails du Cours -->
-    <div class="card mb-4">
+    <div class="mb-4 card">
         <div class="card-header">
             <h2>{{ $course->title }}</h2>
         </div>
@@ -16,11 +16,11 @@
     </div>
     <!-- Liste des Chapitres -->
     <h3>Chapitres</h3>
+    @if (auth()->user()->hasRole('teacher'))
+        <a href="{{ route('courses.chapters.create',['course' => $course]) }}" class="m-1 text-right btn btn-secondary btn-sm">Ajouter un chapitre</a> 
+    @endif
     @if ($course->chapters->isEmpty())
         <p>Aucun chapitre trouvé.</p>
-        @if (auth()->user()->hasRole('teacher'))
-        <a href="{{ route('courses.chapters.create',['course' => $course]) }}" class="btn btn-secondary btn-sm m-1">Ajouter un chapitre</a> 
-    @endif
     @else
         <table class="table table-bordered">
             <thead>
@@ -38,12 +38,12 @@
                         <td class="text-center">{{$chapitre->title}}</td>
                         <td class="text-center">{{ Str::limit($chapitre->content, 150) }}</td>
                         <td class="text-center">
-                            <a href="{{ route('courses.chapters.show',['teacher' => $course->teacher_id,$course,'chapter' => $chapitre]) }}" class="btn btn-primary btn-sm m-1">Voir</a>
-                            <a href="{{ route('courses.chapters.edit',[$course,'chapter' => $chapitre]) }}" class="btn btn-warning btn-sm m-1">Modifier</a>
+                            <a href="{{ route('courses.chapters.show',['teacher' => $course->teacher_id,$course,'chapter' => $chapitre]) }}" class="m-1 btn btn-primary btn-sm">Voir</a>
+                            <a href="{{ route('courses.chapters.edit',[$course,'chapter' => $chapitre]) }}" class="m-1 btn btn-warning btn-sm">Modifier</a>
                             <form id="deleteForm-{{ $chapitre->id }}" action="{{ route('courses.chapters.destroy', [$course,'chapter' => $chapitre->id]) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger m-1 btn-sm"
+                                <button type="submit" class="m-1 btn btn-danger btn-sm"
                                     onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce chapitre?')">
                                     Supprimer
                                 </button>
